@@ -1,0 +1,73 @@
+<!-- This HTML code creates a canvas element where the Reversi board will be drawn. -->
+<!-- The size of the canvas is determined by the size of the Reversi board. -->
+<!-- The canvas is styled with a border to give it a border. -->
+<!-- Users can input the values of n and m, send it to function reversiboard(n, m) in reversi.js  -->
+<!-- and the Reversi board will be drawn. -->
+<!-- The Reversi board is drawn using the reversiboard(n, m) function in reversi.js. -->
+<!-- The reversiboard(n, m) function takes in the values of n and m and draws the Reversi board. -->
+<!-- For every row and column, there is a button that clear the entire row or column of board when clicked.-->
+<!-- when the user click on the square of the leftmost of each row, clear the row -->
+
+<!DOCTYPE html>
+<html>
+    <script src="function.js"></script>
+    <script src="reversi.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
+
+    <head>
+        <title>Reversi</title>
+        <link rel="stylesheet" type="text/css" href="reversi.css" />
+        <script type="text/javascript" src="reversi.js"></script>
+    </head>
+    <body>
+        <div id="container">
+            <h1>縱橫殺棋</h1>
+            <!--
+            <p>Enter the values of n and m to draw the Reversi board.</p>
+            <form>
+                <label for="n">n:</label>
+                <input type="number" id="n" name="n" min="4" max="16" value="8" />
+                <label for="m">m:</label>
+                <input type="number" id="m" name="m" min="4" max="16" value="8" />
+                <input type="button" value="Draw Reversi Board" onclick="reversiboard(n.value, m.value)" />
+            </form>
+            -->
+
+            <!-- choose File from local directory-->
+            <h2>Step 1: 選擇 input.txt</h2>
+            <input type="file" id="file" accept=".txt" />
+            <br />
+            <h2>Step 2: 選擇模式</h2>
+            <p>雙電腦/批改模式: 不會有畫面，會將結果輸出到 output.txt 並自動下載</p>
+            <input type="button" value="雙電腦/批改模式" onclick="callCMain()" />
+            <br />
+            <input type="button" value="人機(AI先手)" onclick="gameManager(true,true)" />
+            <input type="button" value="人機(AI後手)" onclick="gameManager(true,false)" />
+            <input type="button" value="雙人對戰" onclick="gameManager(false,false)" />
+            <br />
+            <div id="player1_score"></div>
+            <div id="player2_score"></div>
+            <br />
+            <canvas id="reversiboard" width="0" height="0" style="border: 1px solid #000000"></canvas>
+            <div id="winner"></div>
+        </div>
+    </body>
+    <script>
+        const canvas = document.getElementById("reversiboard");
+        canvas.onclick = (event) => {
+            var x = event.offsetX;
+            var y = event.offsetY;
+            //console.log(x, y);
+            var squareSize = 50;
+            var row = Math.floor(x / squareSize) - 1;
+            var col = Math.floor(y / squareSize) - 1;
+            if (row < 0 && col >= 0) {
+                score = clearCol(col);
+                resolve(event);
+            } else if (row >= 0 && col < 0) {
+                score = clearRow(row);
+                resolve(event);
+            }
+        };
+    </script>
+</html>
