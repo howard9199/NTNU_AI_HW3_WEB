@@ -307,6 +307,8 @@ async function human_player_turn() {
 
 // computer player's turn
 async function ai_player_turn() {
+    // wait for 1 second
+    await new Promise((r) => setTimeout(r, 1000));
     var row_or_col = ai_next(board);
     var score = 0;
     if (row_or_col < 8) score = clearRow(row_or_col);
@@ -331,7 +333,8 @@ function callCMain_sub() {
             board64 += board[i][j];
         }
     }
-    console.log(board64);
+    //console.log(board64);
+    console.log([...board64].map((x) => x.charCodeAt(0)));
 
     var return_val = Module.ccall("auto_move", "string", ["string"], [board64]);
 
