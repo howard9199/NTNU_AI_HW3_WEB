@@ -213,7 +213,7 @@ async function gameManager_sub() {
     var squareSize = 50;
     document.getElementById("player1_score").innerHTML = "player1_score: " + player1_score;
     document.getElementById("player2_score").innerHTML = "player2_score: " + player2_score;
-    document.getElementById("winner").innerHTML = "Game Started!";
+    document.getElementById("running_status").innerHTML = "";
     turn = 0;
 
     // while the board is not all empty
@@ -261,11 +261,11 @@ async function gameManager_sub() {
 
     // show the winner
     if (player1_score > player2_score) {
-        document.getElementById("winner").innerHTML = "Player 1 wins!";
+        document.getElementById("running_status").innerHTML = "Game Over: Player 1 wins!";
     } else if (player1_score < player2_score) {
-        document.getElementById("winner").innerHTML = "Player 2 wins!";
+        document.getElementById("running_status").innerHTML = "Game Over: Player 2 wins!";
     } else {
-        document.getElementById("winner").innerHTML = "Draw!";
+        document.getElementById("running_status").innerHTML = "Game Over: Draw!";
     }
 
     // output the result to output.txt, and download it
@@ -307,20 +307,23 @@ async function human_player_turn() {
 
 // computer player's turn
 async function ai_player_turn() {
+    document.getElementById("running_status").innerHTML = "AI is thinking...";
     // wait for 1 second
-    await new Promise((r) => setTimeout(r, 1000));
+    await new Promise((r) => setTimeout(r, 500));
     var row_or_col = ai_next(board);
     var score = 0;
     if (row_or_col < 8) score = clearRow(row_or_col);
     else score = clearCol(row_or_col - 8);
 
     reversiboard(board_n, board_m);
+    document.getElementById("running_status").innerHTML = "";
     return score;
 }
 
 // AI to I/O
 function callCMain() {
     is_cmain = true;
+    document.getElementById("running_status").innerHTML = "Running...";
     init();
 }
 
@@ -347,10 +350,5 @@ function callCMain_sub() {
     // return_val = return_val.substring(1);
     var blob = new Blob([return_valNFC], { type: "text/plain" });
     saveAs(blob, "output.txt");
-
-    // disable the start button
-    document.getElementById("start").disabled = true;
-
-    // disable the file input
-    document.getElementById("file").disabled = true;
+    document.getElementById("running_status").innerHTML = "File is ready to download!";
 }

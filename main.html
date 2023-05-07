@@ -39,6 +39,7 @@
             <br />
             <h2>Step 2: 選擇模式</h2>
             <p>雙電腦/批改模式: 不會有畫面，會將結果輸出到 output.txt 並自動下載</p>
+
             <input type="button" value="雙電腦/批改模式" onclick="callCMain()" />
             <br />
             <input type="button" value="人機(AI先手)" onclick="gameManager(true,true)" />
@@ -48,8 +49,8 @@
             <div id="player1_score"></div>
             <div id="player2_score"></div>
             <br />
+            <div id="running_status"></div>
             <canvas id="reversiboard" width="0" height="0" style="border: 1px solid #000000"></canvas>
-            <div id="winner"></div>
         </div>
     </body>
     <script>
